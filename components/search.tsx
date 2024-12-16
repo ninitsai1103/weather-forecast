@@ -28,13 +28,15 @@ type ForecastProps = {
   type SearchProps = {
     handleTodayWeather: (todayWeather: WeatherProps | null) => void;
     handleForecast: (forecast: ForecastProps[] | null) => void;
+    handleLoading: (loading: boolean) => void;
   };
 
 
-export default function Search({ handleTodayWeather, handleForecast} : SearchProps): JSX.Element {
+export default function Search({ handleTodayWeather, handleForecast, handleLoading} : SearchProps): JSX.Element {
   const [search, setSearch] = useState("");
 
   const handleSearch = async (search: string) => {
+    handleLoading(true);
     try {
       const weatherResponse = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${search}&units=metric&lang=zh_tw&appid=${process.env.NEXT_PUBLIC_API_KEY}`
@@ -66,6 +68,8 @@ export default function Search({ handleTodayWeather, handleForecast} : SearchPro
       handleForecast(filteredData);
     } catch (error) {
       console.error("Error fetching weather data:", error);
+    } finally {
+      handleLoading(false);
     }
   };
 

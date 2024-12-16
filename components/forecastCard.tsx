@@ -1,4 +1,5 @@
 import { JSX } from "react";
+import Image from "next/image";
 
 type ForecastProps = {
   dt_txt: string;
@@ -12,14 +13,20 @@ type ForecastProps = {
 };
 
 export default function ForecastCard({
-  forecast,
+  forecast, loading
 }: {
   forecast: ForecastProps[] | null;
+  loading: boolean
 }): JSX.Element {
   return (
     <>
       <div className="px-3 py-2 bg-[#ffffff80] rounded-md text-[#016697] ">
-        {forecast ? (
+        {loading ? (
+          <div className="flex flex-col items-center justify-center">
+          <Image src="/loading.gif" width={200} height={70} alt="loading" />
+          <div>LOADING...</div>
+        </div>
+        ) : forecast ? (
           <>
               <div className="grid grid-cols-4 gap-2 p-2 text-center xl:text-[1rem] text-[0.7rem] text-gray-600">
                 <div className="col-span-1 text-start">日期</div>

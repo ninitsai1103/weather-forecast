@@ -1,6 +1,6 @@
 "use client";
 
-import {useState} from "react";
+import { useState } from "react";
 import Search from "@/components/search";
 import TodayCard from "@/components/todayCard";
 import ForecastCard from "@/components/forecastCard";
@@ -27,27 +27,44 @@ type WeatherProps = {
   weather: { description: string }[];
 };
 
-export default function Index(){
+export default function Index() {
   const [todayWeather, setTodayWeather] = useState<WeatherProps | null>(null);
   const [forecast, setForecast] = useState<ForecastProps[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleTodayWeather = (todayWeather: WeatherProps | null) => {
     setTodayWeather(todayWeather);
-  }
+  };
 
   const handleForecast = (forecast: ForecastProps[] | null) => {
     setForecast(forecast);
-  }
+  };
+
+  const handleLoading = (loading: boolean) => {
+    setLoading(loading);
+  };
+
+  // useEffect(() => {
+  //   if(!loading){
+
+  //   }
+  // },[loading])
   return (
     <>
       <div className="flex md:items-center justify-center h-dvh">
         <div className="md:w-[60%] w-[100%] p-5">
-          <div className="mb-2 px-3 py-2 bg-[#81D2FF] text-3xl rounded-md">Weather不淋雨</div>
+          <div className="mb-2 px-3 py-2 bg-[#81D2FF] text-3xl rounded-md">
+            Weather不淋雨
+          </div>
           <div className="lg:flex block">
-            <Search handleTodayWeather={handleTodayWeather} handleForecast={handleForecast}/>
+            <Search
+              handleTodayWeather={handleTodayWeather}
+              handleForecast={handleForecast}
+              handleLoading={handleLoading}
+            />
             <div className="ml-0 lg:ml-2 flex-1">
-              <TodayCard todayWeather={todayWeather}/>
-              <ForecastCard forecast={forecast}/>
+              <TodayCard todayWeather={todayWeather} loading={loading} />
+              <ForecastCard forecast={forecast} loading={loading} />
             </div>
           </div>
         </div>
