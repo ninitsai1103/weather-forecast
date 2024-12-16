@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import Image from "next/image";
 import Search from "@/components/search";
 import TodayCard from "@/components/todayCard";
 import ForecastCard from "@/components/forecastCard";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 type ForecastProps = {
   dt_txt: string;
@@ -32,6 +35,11 @@ export default function Index() {
   const [forecast, setForecast] = useState<ForecastProps[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
+  const todayCardRef = useRef<HTMLDivElement | null>(null);
+  const forecastCardRef = useRef<HTMLDivElement | null>(null);
+
+  const animationTimelineRef = useRef<gsap.core.Timeline | null>(null);
+
   const handleTodayWeather = (todayWeather: WeatherProps | null) => {
     setTodayWeather(todayWeather);
   };
@@ -44,11 +52,37 @@ export default function Index() {
     setLoading(loading);
   };
 
-  // useEffect(() => {
-  //   if(!loading){
+  useGSAP(() => {
+    if (animationTimelineRef.current) {
+      animationTimelineRef.current.kill();
+    }
 
-  //   }
-  // },[loading])
+    if (!loading && todayWeather && forecast) {
+      const timeline = gsap.timeline();
+      animationTimelineRef.current = timeline;
+
+      timeline.fromTo(
+        ".today-card", 
+        { opacity: 0, y: 250 }, 
+        {
+          opacity: 1, 
+          duration: 2, 
+          y: 0,
+          ease: "power2.out"
+        }
+      ).fromTo(
+        ".forecast-card", 
+        { opacity: 0, y: 300 }, 
+        {
+          opacity: 1, 
+          duration: 2, 
+          y: 0,
+          ease: "power2.out"
+        },
+        "-=1.5" // Slight overlap for smoother animation
+      );
+    }
+  }, [loading, todayWeather, forecast]);
   return (
     <>
       <div className="flex md:items-center justify-center h-dvh">
@@ -61,10 +95,29 @@ export default function Index() {
               handleTodayWeather={handleTodayWeather}
               handleForecast={handleForecast}
               handleLoading={handleLoading}
+              loading={loading}
             />
             <div className="ml-0 lg:ml-2 flex-1">
-              <TodayCard todayWeather={todayWeather} loading={loading} />
-              <ForecastCard forecast={forecast} loading={loading} />
+              {loading ? (
+                <div className="flex flex-col items-center justify-center">
+                  <Image
+                    src="/loading.gif"
+                    width={200}
+                    height={70}
+                    alt="loading"
+                  />
+                  <div>LOADING...</div>
+                </div>
+              ) : (
+                <>
+                  <div ref={todayCardRef} className="today-card">
+                    <TodayCard todayWeather={todayWeather} />
+                  </div>
+                  <div ref={forecastCardRef} className="forecast-card">
+                    <ForecastCard forecast={forecast} />
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </div>

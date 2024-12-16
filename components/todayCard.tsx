@@ -1,6 +1,5 @@
 import { JSX } from "react";
 import React from 'react';
-import Image from "next/image";
 
 type WeatherProps = {
   main: {
@@ -14,20 +13,14 @@ type WeatherProps = {
 };
 
 export default function TodayCard({
-  todayWeather,loading
+  todayWeather
 }: {
   todayWeather: WeatherProps | null;
-  loading: boolean
 }): JSX.Element {
   return (
     <>
       <div className="xl:flex block mb-2 px-3 py-2 bg-[#ffffff80] rounded-md text-[#016697]">
-        {loading ? (
-          <div className="flex flex-col items-center justify-center">
-            <Image src="/loading.gif" width={200} height={70} alt="loading" />
-            <div>LOADING...</div>
-          </div>
-        ) : todayWeather ? (
+        {todayWeather ? (
           <>
             <div>
               <div className="mb-4 text-[1.5rem]">當前體感溫度：</div>

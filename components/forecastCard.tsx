@@ -1,5 +1,4 @@
 import { JSX } from "react";
-import Image from "next/image";
 
 type ForecastProps = {
   dt_txt: string;
@@ -13,20 +12,14 @@ type ForecastProps = {
 };
 
 export default function ForecastCard({
-  forecast, loading
+  forecast
 }: {
   forecast: ForecastProps[] | null;
-  loading: boolean
 }): JSX.Element {
   return (
     <>
       <div className="px-3 py-2 bg-[#ffffff80] rounded-md text-[#016697] ">
-        {loading ? (
-          <div className="flex flex-col items-center justify-center">
-          <Image src="/loading.gif" width={200} height={70} alt="loading" />
-          <div>LOADING...</div>
-        </div>
-        ) : forecast ? (
+        {forecast ? (
           <>
               <div className="grid grid-cols-4 gap-2 p-2 text-center xl:text-[1rem] text-[0.7rem] text-gray-600">
                 <div className="col-span-1 text-start">日期</div>
@@ -37,9 +30,9 @@ export default function ForecastCard({
               {forecast.map((item, index) => (
                 <div
                   key={index}
-                  className="grid grid-cols-4 gap-2 p-2 mb-4 bg-white rounded-md xl:text-lg text-[0.7rem] hover:bg-[#E1CEEF] hover:text-[#3F1E68] transition-color duration-500"
+                  className="grid grid-cols-4 gap-2 p-2 mb-4 bg-white rounded-md xl:text-lg text-[0.8rem] hover:bg-[#E1CEEF] hover:text-[#3F1E68] transition-color duration-500"
                 >
-                  <div className="col-span-1 text-start xl:text-lg text-[0.7rem]">
+                  <div className="col-span-1 text-start">
                     {item.dt_txt.split(" ")[0]}
                   </div>
                   <div className="col-span-1 text-center">
