@@ -30,14 +30,22 @@ type WeatherProps = {
 export default function Index(){
   const [todayWeather, setTodayWeather] = useState<WeatherProps | null>(null);
   const [forecast, setForecast] = useState<ForecastProps[] | null>(null);
+
+  const handleTodayWeather = (todayWeather: WeatherProps | null) => {
+    setTodayWeather(todayWeather);
+  }
+
+  const handleForecast = (forecast: ForecastProps[] | null) => {
+    setForecast(forecast);
+  }
   return (
     <>
-      <div className="flex items-center justify-center h-dvh">
-        <div className="w-[55%] p-5">
+      <div className="flex md:items-center justify-center h-dvh">
+        <div className="md:w-[60%] w-[100%] p-5">
           <div className="mb-2 px-3 py-2 bg-[#81D2FF] text-3xl rounded-md">Weather不淋雨</div>
-          <div className="flex text-xl">
-            <Search setTodayWeather={setTodayWeather} setForecast={setForecast}/>
-            <div className="ml-2 flex-1">
+          <div className="lg:flex block">
+            <Search handleTodayWeather={handleTodayWeather} handleForecast={handleForecast}/>
+            <div className="ml-0 lg:ml-2 flex-1">
               <TodayCard todayWeather={todayWeather}/>
               <ForecastCard forecast={forecast}/>
             </div>

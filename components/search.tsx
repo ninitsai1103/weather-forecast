@@ -26,11 +26,12 @@ type ForecastProps = {
   };
 
   type SearchProps = {
-    setTodayWeather: ( todayWeather: WeatherProps | null) => void;
-    setForecast: ( forecast: ForecastProps[] | null) => void;
+    handleTodayWeather: (todayWeather: WeatherProps | null) => void;
+    handleForecast: (forecast: ForecastProps[] | null) => void;
   };
 
-export default function Search({ setTodayWeather, setForecast }: SearchProps): JSX.Element {
+
+export default function Search({ handleTodayWeather, handleForecast} : SearchProps): JSX.Element {
   const [search, setSearch] = useState("");
 
   const handleSearch = async (search: string) => {
@@ -45,7 +46,8 @@ export default function Search({ setTodayWeather, setForecast }: SearchProps): J
 
       const weatherData = await weatherResponse.json();
       //   console.log(weatherData);
-      setTodayWeather(weatherData);
+
+      handleTodayWeather(weatherData);
 
       const forecastResponse = await fetch(
         `https://api.openweathermap.org/data/2.5/forecast?q=${search}&cnt=40&units=metric&lang=zh_tw&appid=${process.env.NEXT_PUBLIC_API_KEY}`
@@ -57,10 +59,11 @@ export default function Search({ setTodayWeather, setForecast }: SearchProps): J
 
       const forecastData = await forecastResponse.json();
       const filteredData = forecastData.list.filter(
-        (item: ForecastProps, index: number)=> index % 8 === 5
+        (item: ForecastProps, index: number)=> index % 8 === 7
       );
-      //   console.log(filteredData);
-      setForecast(filteredData);
+        // console.log(filteredData);
+
+      handleForecast(filteredData);
     } catch (error) {
       console.error("Error fetching weather data:", error);
     }
@@ -68,7 +71,7 @@ export default function Search({ setTodayWeather, setForecast }: SearchProps): J
 
   return (
     <>
-      <div className="px-3 py-2 bg-[#81D2FF] rounded-md">
+      <div className="px-3 py-2 bg-[#81D2FF] rounded-md lg:mb-0 mb-2">
         <div className="flex items-center">
           <div className="pb-[0.125rem]">
             <input
