@@ -1,17 +1,8 @@
 // pages/api/weather.ts
 
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { ForecastProps } from "@/types/weather";
 
-type ForecastProps = {
-  dt_txt: string;
-  weather: {
-    description: string;
-  }[];
-  main: {
-    temp_max: number;
-    temp_min: number;
-  };
-};
 
 export default async function handler(
   req: NextApiRequest,

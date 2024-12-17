@@ -7,28 +7,7 @@ import TodayCard from "@/components/todayCard";
 import ForecastCard from "@/components/forecastCard";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-
-type ForecastProps = {
-  dt_txt: string;
-  weather: {
-    description: string;
-  }[];
-  main: {
-    temp_max: number;
-    temp_min: number;
-  };
-};
-
-type WeatherProps = {
-  main: {
-    feels_like: number;
-    humidity: number;
-    temp: number;
-    temp_max: number;
-    temp_min: number;
-  };
-  weather: { description: string }[];
-};
+import { WeatherProps, ForecastProps } from "@/types/weather";
 
 export default function Index() {
   const [todayWeather, setTodayWeather] = useState<WeatherProps | null>(null);

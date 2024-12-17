@@ -1,16 +1,7 @@
 import { JSX } from "react";
 import React from 'react';
+import { WeatherProps } from "@/types/weather";
 
-type WeatherProps = {
-  main: {
-    feels_like: number;
-    humidity: number;
-    temp: number;
-    temp_max: number;
-    temp_min: number;
-  };
-  weather: { description: string }[];
-};
 
 export default function TodayCard({
   todayWeather

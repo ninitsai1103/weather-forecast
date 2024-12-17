@@ -1,27 +1,5 @@
-// Search.tsx
 import { useState, JSX } from "react";
-
-type ForecastProps = {
-  dt_txt: string;
-  weather: {
-    description: string;
-  }[];
-  main: {
-    temp_max: number;
-    temp_min: number;
-  };
-};
-
-type WeatherProps = {
-  main: {
-    feels_like: number;
-    humidity: number;
-    temp: number;
-    temp_max: number;
-    temp_min: number;
-  };
-  weather: { description: string }[];
-};
+import { WeatherProps, ForecastProps } from "@/types/weather";
 
 type SearchProps = {
   handleTodayWeather: (todayWeather: WeatherProps | null) => void;
