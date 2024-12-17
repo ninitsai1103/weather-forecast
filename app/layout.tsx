@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html suppressHydrationWarning={true}>
+    <html lang="zh-TW" suppressHydrationWarning={true}>
       <body>{children}</body>
     </html>
   );

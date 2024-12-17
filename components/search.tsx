@@ -37,7 +37,7 @@ export default function Search({
 
   return (
     <>
-      <div className="px-3 py-2 bg-[#81D2FF] rounded-md lg:mb-0 mb-2">
+      <nav className="px-3 py-2 bg-[#1eb0ff] rounded-md lg:mb-0 mb-2">
         <div className="flex items-center">
           <div className="pb-[0.125rem]">
             <input
@@ -50,14 +50,14 @@ export default function Search({
             />
           </div>
           <button
-            className="ml-2 bg-[#15ACFE] rounded-sm text-sm p-1"
+            className="ml-2 bg-[#E1CEEF] text-[#3F1E68] rounded-sm text-sm p-1"
             onClick={() => handleSearch(search)}
             disabled={loading}
           >
             查詢
           </button>
         </div>
-      </div>
+      </nav>
     </>
   );
 }

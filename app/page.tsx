@@ -64,9 +64,9 @@ export default function Index() {
   }, [loading, todayWeather, forecast]);
   return (
     <>
-      <div className="flex md:items-center justify-center h-dvh">
+      <main className="flex md:items-center justify-center h-dvh">
         <div className="md:w-[60%] w-[100%] p-5">
-          <div className="mb-2 px-3 py-2 bg-[#81D2FF] text-3xl rounded-md">
+          <div className="mb-2 px-3 py-2 bg-[#1eb0ff] text-3xl rounded-md">
             Weather不淋雨
           </div>
           <div className="lg:flex block">
@@ -101,7 +101,7 @@ export default function Index() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </>
   );
 }

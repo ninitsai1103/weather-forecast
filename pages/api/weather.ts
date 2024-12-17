@@ -1,5 +1,3 @@
-// pages/api/weather.ts
-
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { ForecastProps } from "@/types/weather";
 
