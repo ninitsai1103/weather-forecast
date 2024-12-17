@@ -18,7 +18,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const { search } = req.query; // 從 query 中獲取搜索位置
-  const apiKey = process.env.NEXT_PUBLIC_API_KEY;
+  const apiKey = process.env.OPEN_WEATHER_API_KEY;
 
   if (!search || typeof search !== 'string') {
     return res.status(400).json({ error: 'Missing or invalid search parameter' });
