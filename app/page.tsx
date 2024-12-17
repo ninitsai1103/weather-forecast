@@ -104,6 +104,7 @@ export default function Index() {
                     src="/loading.gif"
                     width={200}
                     height={70}
+                    unoptimized
                     alt="loading"
                   />
                   <div>LOADING...</div>
