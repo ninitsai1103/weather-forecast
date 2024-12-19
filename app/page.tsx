@@ -2,9 +2,10 @@
 
 import { useState, useRef } from "react";
 import Image from "next/image";
-import Search from "@/components/search";
-import TodayCard from "@/components/todayCard";
-import ForecastCard from "@/components/forecastCard";
+import Header from "../components/header";
+import Search from "../components/search";
+import TodayCard from "../components/todayCard";
+import ForecastCard from "../components/forecastCard";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { WeatherProps, ForecastProps } from "@/types/weather";
@@ -64,11 +65,9 @@ export default function Index() {
   }, [loading, todayWeather, forecast]);
   return (
     <>
-      <main className="flex md:items-center justify-center h-dvh">
+      <main className="flex md:items-center justify-center h-dvh min-w-[370px]">
         <div className="md:w-[60%] w-[100%] p-5">
-          <div className="mb-2 px-3 py-2 bg-[#1eb0ff] text-3xl rounded-md">
-            Weather不淋雨
-          </div>
+          <Header />
           <div className="lg:flex block">
             <Search
               handleTodayWeather={handleTodayWeather}
