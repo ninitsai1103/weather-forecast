@@ -111,6 +111,8 @@ export default function Search({
         }
       };
       getSearchHistory();
+    }else {
+      setSearchHistory([]);
     }
   }, [isLogin, userEmail]);
 
