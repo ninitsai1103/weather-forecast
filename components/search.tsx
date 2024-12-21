@@ -51,7 +51,7 @@ export default function Search({
           <div className="pb-[0.125rem]">
             <input
               type="text"
-              className={`rounded-sm text-sm text-[#016697] p-1` + (isEmpty ? " border-2 border-[#ea6262]" : "")}
+              className={`rounded-sm text-sm text-[#016697] p-1 ${isEmpty ? " border-2 border-[#ea6262]" : ""}`}
               placeholder="請輸入位置名稱"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -67,7 +67,7 @@ export default function Search({
             查詢
           </button>
         </div>
-        {isEmpty && <p className="text-[#ea6262] p-1">請輸入位置名稱</p>}
+        {isEmpty && <p className="bg-[#ea6262] mt-1 px-2 rounded-sm inline-block">請輸入位置名稱</p>}
       </nav>
     </>
   );
