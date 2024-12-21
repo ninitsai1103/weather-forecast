@@ -61,16 +61,18 @@ export default function Search({
         });
       }
 
-      setSearchHistory((prevHistory) => {
-        const existingSearch = prevHistory.find(
-          (item) => item.search === search
-        );
-        if (existingSearch) {
-          return prevHistory;
-        } else {
-          return [...prevHistory, { id: crypto.randomUUID(), search: search }];
-        }
-      });
+      if (isLogin){
+        setSearchHistory((prevHistory) => {
+          const existingSearch = prevHistory.find(
+            (item) => item.search === search
+          );
+          if (existingSearch) {
+            return prevHistory;
+          } else {
+            return [...prevHistory, { id: crypto.randomUUID(), search: search }];
+          }
+        });
+      }
       const data = await response.json();
       handleTodayWeather(data.todayWeather);
       handleForecast(data.forecast);
