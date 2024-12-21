@@ -1,6 +1,9 @@
 import { useState, JSX } from "react";
 import { WeatherProps, ForecastProps } from "@/types/weather";
 import { toast, Toaster } from "react-hot-toast";
+import { db } from "../firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { useAuth } from "../context/authContext";
 
 type SearchProps = {
   handleTodayWeather: (todayWeather: WeatherProps | null) => void;
@@ -17,6 +20,8 @@ export default function Search({
 }: SearchProps): JSX.Element {
   const [search, setSearch] = useState("");
   const [isEmpty, setIsEmpty] = useState(false);
+
+  const { isLogin, userEmail } = useAuth();
 
   const handleSearch = async (search: string) => {
     if (search === "") {
@@ -35,6 +40,12 @@ export default function Search({
       setIsEmpty(false);
       handleTodayWeather(data.todayWeather);
       handleForecast(data.forecast);
+
+      if (isLogin && userEmail && data.todayWeather && data.forecast) {
+        await addDoc(collection(db, "users", userEmail, "search"), {
+          search: search,
+        });
+      }
     } catch {
       toast.error("查詢失敗");
       setIsEmpty(false);
