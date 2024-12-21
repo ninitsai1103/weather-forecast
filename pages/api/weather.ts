@@ -19,9 +19,11 @@ export default async function handler(
     const weatherResponse = await fetch(
       `${openWeatherDomain}/data/2.5/weather?q=${search}&units=metric&lang=zh_tw&appid=${apiKey}`
     );
+    console.log(weatherResponse.status);
 
     if (!weatherResponse.ok) {
-      throw new Error(`HTTP error! status: ${weatherResponse.status}`);
+      res.status(404).json({ error: 'Weather data not found' });
+      return;
     }
 
     const weatherData = await weatherResponse.json();
@@ -32,7 +34,8 @@ export default async function handler(
     );
 
     if (!forecastResponse.ok) {
-      throw new Error(`HTTP error! status: ${forecastResponse.status}`);
+      res.status(404).json({ error: 'Forecast data not found' });
+      return;
     }
 
     const forecastData = await forecastResponse.json();

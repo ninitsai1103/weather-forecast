@@ -40,7 +40,7 @@ export default function ForecastCard({
           </>
         ) : (
           <>
-            <div>開始搜尋未來五天天氣</div>
+            <div>未來五天天氣</div>
           </>
         )}
       </div>

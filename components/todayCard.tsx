@@ -28,7 +28,7 @@ export default function TodayCard({
             </div>
           </>
         ) : (
-          <div>開始搜尋當前天氣</div>
+          <div>當前天氣</div>
         )}
       </div>
     </>

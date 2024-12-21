@@ -38,24 +38,22 @@ export default function Search({
       setIsEmpty(true);
       return;
     }
+    setIsEmpty(false);
+
     handleLoading(true);
     try {
       const response = await fetch(`/api/weather?search=${search}`);
 
       if (!response.ok) {
         toast.error("查詢失敗，請輸入有效關鍵字，或更換關鍵字語言");
+        handleTodayWeather(null);
+        handleForecast(null);
+        return
       }
-
-      const data = await response.json();
-      setIsEmpty(false);
-      handleTodayWeather(data.todayWeather);
-      handleForecast(data.forecast);
 
       if (
         isLogin &&
         userEmail &&
-        data.todayWeather &&
-        data.forecast &&
         !searchHistory.some((item) => item.search === search)
       ) {
         await addDoc(collection(db, "users", userEmail, "search"), {
@@ -73,9 +71,12 @@ export default function Search({
           return [...prevHistory, { id: crypto.randomUUID(), search: search }];
         }
       });
+      const data = await response.json();
+      handleTodayWeather(data.todayWeather);
+      handleForecast(data.forecast);
+
     } catch {
       toast.error("查詢失敗");
-      setIsEmpty(false);
     } finally {
       handleLoading(false);
     }
