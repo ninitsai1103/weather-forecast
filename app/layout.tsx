@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AuthProvider } from "../context/authContext";
 
 export const metadata: Metadata = {
   title: "Weather 不淋雨",
@@ -12,8 +13,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-TW" suppressHydrationWarning={true}>
-      <body>{children}</body>
-    </html>
+    <AuthProvider>
+      <html lang="zh-TW" suppressHydrationWarning={true}>
+        <body>{children}</body>
+      </html>
+    </AuthProvider>
   );
 }

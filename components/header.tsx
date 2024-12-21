@@ -1,19 +1,17 @@
 "use client";
 
-import { useState, JSX, useEffect } from "react";
+import { JSX } from "react";
 import { TbLogin2, TbLogout } from "react-icons/tb";
 import { signInWithGoogle, signOut } from "../lib/auth";
-
+import { useAuth } from "../context/authContext";
 
 export default function Header(): JSX.Element {
-  const [isLogin, setIsLogin] = useState<boolean>(false);
-  const [userName, setUserName] = useState<string | null>("");
+  const { isLogin, userName, setIsLogin, setUserName } = useAuth();
 
   const handleLogin = async () => {
     const user = await signInWithGoogle();
     if (user) {
-      localStorage.setItem("user", JSON.stringify(user.displayName));
-      setUserName(user.displayName);
+      setUserName(user.displayName || "未知userName");
       setIsLogin(true);
     }
   };
@@ -22,17 +20,7 @@ export default function Header(): JSX.Element {
     await signOut();
     setIsLogin(false);
     setUserName(null);
-    localStorage.removeItem("user");
   };
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      const user = JSON.parse(storedUser);
-      setUserName(user);
-      setIsLogin(true);
-    }
-  }, [])
 
   return (
     <>
