@@ -8,6 +8,7 @@ export default async function handler(
 ) {
   const { search } = req.query; // 從 query 中獲取搜索位置
   const apiKey = process.env.OPEN_WEATHER_API_KEY;
+  const openWeatherDomain = process.env.OPEN_WEATHER_DOMAIN;
 
   if (!search || typeof search !== 'string') {
     return res.status(400).json({ error: 'Missing or invalid search parameter' });
@@ -16,7 +17,7 @@ export default async function handler(
   try {
     // 發送當前天氣請求
     const weatherResponse = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${search}&units=metric&lang=zh_tw&appid=${apiKey}`
+      `${openWeatherDomain}/data/2.5/weather?q=${search}&units=metric&lang=zh_tw&appid=${apiKey}`
     );
 
     if (!weatherResponse.ok) {
@@ -27,7 +28,7 @@ export default async function handler(
 
     // 發送預報請求
     const forecastResponse = await fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${search}&cnt=40&units=metric&lang=zh_tw&appid=${apiKey}`
+      `${openWeatherDomain}/data/2.5/forecast?q=${search}&cnt=40&units=metric&lang=zh_tw&appid=${apiKey}`
     );
 
     if (!forecastResponse.ok) {
