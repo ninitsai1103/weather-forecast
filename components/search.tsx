@@ -27,7 +27,9 @@ export default function Search({
 }: SearchProps): JSX.Element {
   const [search, setSearch] = useState<string>("");
   const [isEmpty, setIsEmpty] = useState<boolean>(false);
-  const [searchHistory, setSearchHistory] = useState<{ id: string; search: string }[]>([]);
+  const [searchHistory, setSearchHistory] = useState<
+    { id: string; search: string }[]
+  >([]);
 
   const { isLogin, userEmail } = useAuth();
 
@@ -49,7 +51,13 @@ export default function Search({
       handleTodayWeather(data.todayWeather);
       handleForecast(data.forecast);
 
-      if (isLogin && userEmail && data.todayWeather && data.forecast) {
+      if (
+        isLogin &&
+        userEmail &&
+        data.todayWeather &&
+        data.forecast &&
+        !searchHistory.some((item) => item.search === search)
+      ) {
         await addDoc(collection(db, "users", userEmail, "search"), {
           search: search,
         });
@@ -65,7 +73,6 @@ export default function Search({
           return [...prevHistory, { id: crypto.randomUUID(), search: search }];
         }
       });
-
     } catch {
       toast.error("查詢失敗");
       setIsEmpty(false);
@@ -95,9 +102,9 @@ export default function Search({
           );
           const history: { id: string; search: string }[] = [];
 
-        getSearchData.forEach((doc) => {
-          history.push({ id: doc.id, search: doc.data().search });
-        });
+          getSearchData.forEach((doc) => {
+            history.push({ id: doc.id, search: doc.data().search });
+          });
           setSearchHistory(history);
         } catch {
           toast.error("取搜尋紀錄失敗");
@@ -143,10 +150,15 @@ export default function Search({
             <div
               key={index}
               className="flex items-center text-md mt-1 bg-[#E1CEEF] text-[#3F1E68] px-1 mr-1 mb-1 rounded-sm cursor-pointer"
-              onClick={() => handleSearch(item.search)}
+              onClick={() => {handleSearch(item.search); setSearch(item.search);}}
             >
               <p className="mr-2">{item.search}</p>
-              <IoIosCloseCircle onClick={() => deleteSearchHistory(item.id)} />
+              <IoIosCloseCircle
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteSearchHistory(item.id);
+                }}
+              />
             </div>
           ))}
         </div>
