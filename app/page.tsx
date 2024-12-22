@@ -33,22 +33,26 @@ export default function Index() {
   };
 
   useGSAP(() => {
+    //檢查是否有已經執行過的動畫，如果有就清除
     if (animationTimelineRef.current) {
       animationTimelineRef.current.kill();
     }
 
+    //如果loading結束且有天氣資料，開始執行動畫
     if (!loading && todayWeather && forecast) {
+      //GSAP 提供的 API，用來建立一個時間軸動畫建立timeline
       const timeline = gsap.timeline();
+      //將timeline儲存到ref
       animationTimelineRef.current = timeline;
 
       timeline.fromTo(
         ".today-card", 
-        { opacity: 0, y: 250 }, 
+        { opacity: 0, y: 250 }, // 起始狀態
         {
           opacity: 1, 
           duration: 2, 
-          y: 0,
-          ease: "power2.out"
+          y: 0,// 結束狀態
+          ease: "power2.out"// 動畫效果
         }
       ).fromTo(
         ".forecast-card", 
@@ -59,7 +63,7 @@ export default function Index() {
           y: 0,
           ease: "power2.out"
         },
-        "-=1.5" // Slight overlap for smoother animation
+        "-=1.5" // 在上一個動畫結束前 1.5 秒開始
       );
     }
   }, [loading, todayWeather, forecast]);

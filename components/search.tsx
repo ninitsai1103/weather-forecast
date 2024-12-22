@@ -34,6 +34,7 @@ export default function Search({
   const { isLogin, userEmail } = useAuth();
 
   const handleSearch = async (search: string) => {
+    //檢查是否有輸入關鍵字
     if (search === "") {
       setIsEmpty(true);
       return;
@@ -51,16 +52,19 @@ export default function Search({
         return
       }
 
+      //如果有登入狀態而且有使用者Email而且沒有重複搜尋的關鍵字，將搜尋紀錄存入Firestore
       if (
         isLogin &&
         userEmail &&
         !searchHistory.some((item) => item.search === search)
       ) {
+        //create功能
         await addDoc(collection(db, "users", userEmail, "search"), {
           search: search,
         });
       }
 
+      //如果有登入狀態，並更新searchHistory
       if (isLogin){
         setSearchHistory((prevHistory) => {
           const existingSearch = prevHistory.find(
@@ -84,10 +88,12 @@ export default function Search({
     }
   };
 
+  //delete功能
   const deleteSearchHistory = async (id: string) => {
     try {
       if (!isLogin || !userEmail) return;
       await deleteDoc(doc(db, "users", userEmail, "search", id));
+      //更新searchHistory
       setSearchHistory((prevHistory) =>
         prevHistory.filter((item) => item.id !== id)
       );
@@ -96,6 +102,7 @@ export default function Search({
     }
   };
 
+  //read功能
   useEffect(() => {
     if (isLogin && userEmail) {
       const getSearchHistory = async () => {
@@ -105,14 +112,17 @@ export default function Search({
           );
           const history: { id: string; search: string }[] = [];
 
+          //將搜尋紀錄存入history
           getSearchData.forEach((doc) => {
             history.push({ id: doc.id, search: doc.data().search });
           });
+          //顯示history list
           setSearchHistory(history);
         } catch {
           toast.error("取搜尋紀錄失敗");
         }
       };
+      //執行
       getSearchHistory();
     }else {
       setSearchHistory([]);
